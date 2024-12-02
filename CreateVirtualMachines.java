@@ -1,14 +1,14 @@
 package org.cloudbus.cloudsim.edf;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.provisioners.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CreateVirtualMachines {
-  public static List < Vm > create(int brokerId) {
-    List < Vm > vmList = new ArrayList < > ();
+
+  public static List<Vm> create(int brokerId) {
+    List<Vm> vmList = new ArrayList<>();
 
     // VM configuration
     int mips = 1000;
@@ -18,8 +18,8 @@ public class CreateVirtualMachines {
     int pesNumber = 1;
     String vmm = "Xen";
 
-    // Create 3 VMs
-    for (int i = 0; i < 3; i++) {
+    // Create 50 VMs
+    for (int i = 0; i < 50; i++) {
       Vm vm = new Vm(
         i, // VM ID
         brokerId,

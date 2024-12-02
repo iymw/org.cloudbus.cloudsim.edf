@@ -1,19 +1,21 @@
 package org.cloudbus.cloudsim.edf;
 
+import java.text.DecimalFormat;
+import java.util.List;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.provisioners.*;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 public class PrintCloudletList {
-  public static void print(List < Cloudlet > list) {
+
+  public static void print(List<Cloudlet> list) {
     int size = list.size();
     Cloudlet cloudlet;
 
     System.out.println("\n========== OUTPUT ==========");
-    System.out.println("Cloudlet ID\tStatus\tData center ID\tVM ID\tTime\tStart Time\tFinish Time");
+    System.out.println(
+      "Cloudlet ID\tStatus\tData center ID\tVM ID\tTime\tStart Time\tFinish Time"
+    );
 
     DecimalFormat dft = new DecimalFormat("###.##");
     for (int i = 0; i < size; i++) {

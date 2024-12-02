@@ -1,13 +1,13 @@
 package org.cloudbus.cloudsim.edf;
 
+import java.util.Calendar;
+import java.util.List;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.provisioners.*;
 
-import java.util.Calendar;
-import java.util.List;
-
 public class Main {
+
   public static void main(String[] args) {
     try {
       // Number of cloud users
@@ -23,17 +23,17 @@ public class Main {
       CloudSim.init(num_user, calendar, trace_flag);
 
       // Create Datacenter
-      Datacenter datacenter0 = CreateDataCenter.create("Datacenter_0");
+      Datacenter datacenter0 = CreateDataCenter.create("Datacenter_0", 50);
 
       // Create Broker
       DatacenterBroker broker = createBroker();
       int brokerId = broker.getId();
 
       // Create VMs
-      List < Vm > vmList = CreateVirtualMachines.create(brokerId);
+      List<Vm> vmList = CreateVirtualMachines.create(brokerId);
 
       // Create Cloudlets
-      List < Cloudlet > cloudletList = CreateCloudlets.create(brokerId);
+      List<Cloudlet> cloudletList = CreateCloudlets.create(brokerId);
 
       // Associate Cloudlets with VMs
       for (int i = 0; i < cloudletList.size(); i++) {
@@ -49,13 +49,12 @@ public class Main {
       // Start the simulation
       CloudSim.startSimulation();
 
-      // Stop the simulation 
+      // Stop the simulation
       CloudSim.stopSimulation();
 
       // Final result processing
-      List < Cloudlet > newList = broker.getCloudletReceivedList();
+      List<Cloudlet> newList = broker.getCloudletReceivedList();
       PrintCloudletList.print(newList);
-
     } catch (Exception e) {
       System.out.println("Simulation terminated due to unexpected error:");
       e.printStackTrace();
