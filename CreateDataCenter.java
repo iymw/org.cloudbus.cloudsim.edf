@@ -12,24 +12,26 @@ public class CreateDataCenter {
     List < Host > hostList = new ArrayList < > ();
 
     // PE and Host parameters
-    int mips = 1000;
-    int ram = 2048; // 2 GB
-    long storage = 1000000; // 1 TB
-    int bw = 10000;
+    int numberOfPEs = 4; // Define the number of PEs
+    int mips = 1000; // Define MIPS capacity per PE
+    int ram = 2048; // 2 GB RAM
+    long storage = 1000000; // 1 TB Storage
+    int bw = 10000; // Bandwidth
 
     // Create Processing Elements (PEs)
     List < Pe > peList = new ArrayList < > ();
-    Pe pe = new Pe(0, new PeProvisionerSimple(mips));
-    peList.add(pe);
+    for (int i = 0; i < numberOfPEs; i++) {
+      peList.add(new Pe(i, new PeProvisionerSimple(mips))); // Each PE gets a unique ID
+    }
 
     // Create Host
     Host host = new Host(
-      0, // host ID
+      0, // Host ID
       new RamProvisionerSimple(ram),
       new BwProvisionerSimple(bw),
       storage,
-      peList, // list of PEs
-      new VmSchedulerTimeShared(peList)
+      peList, // List of PEs
+      new VmSchedulerTimeShared(peList) // Time-Shared Scheduler
     );
     hostList.add(host);
 
