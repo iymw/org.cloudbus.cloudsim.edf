@@ -3,37 +3,58 @@ package org.cloudbus.cloudsim.edf;
 import java.text.DecimalFormat;
 import java.util.List;
 import org.cloudbus.cloudsim.*;
-import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.provisioners.*;
 
 public class PrintCloudletList {
 
-  public static void print(List<Cloudlet> list) {
-    int size = list.size();
-    Cloudlet cloudlet;
+    public static void printWithMissedDeadlines(List<Cloudlet> list) {
+        int missedDeadlineCount = 0;
 
-    System.out.println("\n========== OUTPUT ==========");
-    System.out.println(
-      "Cloudlet ID\tStatus\tData center ID\tVM ID\tTime\tStart Time\tFinish Time"
-    );
+        System.out.println("\n========== OUTPUT ==========");
+        System.out.printf(
+            "%-12s%-12s%-16s%-10s%-10s%-15s%-15s%-15s%-15s%n",
+            "Cloudlet ID",
+            "Status",
+            "Data center ID",
+            "VM ID",
+            "Time",
+            "Start Time",
+            "Finish Time",
+            "Deadline",
+            "Missed Deadline"
+        );
 
-    DecimalFormat dft = new DecimalFormat("###.##");
-    for (int i = 0; i < size; i++) {
-      cloudlet = list.get(i);
+        DecimalFormat dft = new DecimalFormat("###.##");
+        for (Cloudlet cloudlet : list) {
+            CloudletWithDeadline cloudletWithDeadline =
+                (CloudletWithDeadline) cloudlet;
 
-      System.out.print(cloudlet.getCloudletId() + "\t\t");
+            String status = cloudlet.getCloudletStatus() == Cloudlet.SUCCESS
+                ? "SUCCESS"
+                : "FAILED";
+            double finishTime = cloudlet.getFinishTime();
+            double deadline = cloudletWithDeadline.getDeadline();
+            String missedDeadline = finishTime > deadline ? "YES" : "NO";
 
-      if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS) {
-        System.out.print("SUCCESS\t");
-        System.out.print(cloudlet.getResourceId() + "\t\t");
-        System.out.print(cloudlet.getVmId() + "\t");
-        System.out.print(dft.format(cloudlet.getActualCPUTime()) + "\t");
-        System.out.print(dft.format(cloudlet.getExecStartTime()) + "\t\t");
-        System.out.print(dft.format(cloudlet.getFinishTime()) + "\t");
-      } else {
-        System.out.print("FAILED\t");
-      }
-      System.out.println();
+            if (missedDeadline.equals("YES")) {
+                missedDeadlineCount++;
+            }
+
+            System.out.printf(
+                "%-12d%-12s%-16d%-10d%-10s%-15s%-15s%-15s%-15s%n",
+                cloudlet.getCloudletId(),
+                status,
+                cloudlet.getResourceId(),
+                cloudlet.getVmId(),
+                dft.format(cloudlet.getActualCPUTime()),
+                dft.format(cloudlet.getExecStartTime()),
+                dft.format(finishTime),
+                dft.format(deadline),
+                missedDeadline
+            );
+        }
+
+        System.out.println(
+            "\nTotal Missed Deadline Cloudlets: " + missedDeadlineCount
+        );
     }
-  }
 }
