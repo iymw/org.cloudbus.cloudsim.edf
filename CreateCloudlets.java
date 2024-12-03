@@ -35,7 +35,7 @@ public class CreateCloudlets {
 
             // Calculate execution time estimate and randomized deadline
             double executionTimeEstimate = (double) length / vmMips;
-            double randomFactor = 1.50 + (Math.random() * 1.15); // Random multiplier between 1.5 and 2.5
+            double randomFactor = 1.50 + (Math.random() * 1.15); // Random multiplier between 1.15 and 1.50
             double deadline = executionTimeEstimate * randomFactor; // Apply random multiplier
 
             // Create cloudlet

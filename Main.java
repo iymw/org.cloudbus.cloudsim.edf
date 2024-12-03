@@ -24,7 +24,7 @@ public class Main {
             // Create Datacenter
             Datacenter datacenter0 = CreateDataCenter.create(
                 "Datacenter_0",
-                100
+                300
             );
 
             // Create Broker
@@ -60,11 +60,25 @@ public class Main {
             // Stop the simulation
             CloudSim.stopSimulation();
 
+            // Retrieve the actual simulation time
+            int simulationTime = (int) CloudSim.clock(); // Dynamically retrieve the simulation clock time
+
             // Final result processing
             List<Cloudlet> newList = broker.getCloudletReceivedList();
 
             // Print Cloudlet list and calculate missed deadlines
             PrintCloudletList.printWithMissedDeadlines(newList);
+
+            // Call printResourceUtilization with the dynamic simulation time
+            PrintCloudletList.printResourceUtilization(
+                vmList,
+                datacenter0.getHostList(),
+                vmMips,
+                512,
+                1000,
+                10000,
+                simulationTime
+            );
         } catch (Exception e) {
             System.out.println(
                 "Simulation terminated due to unexpected error:"
