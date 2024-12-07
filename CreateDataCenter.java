@@ -9,12 +9,12 @@ public class CreateDataCenter {
 
     public static Datacenter create(String name, int numberOfHosts) {
         List<Host> hostList = new ArrayList<>();
-        int mips = 1000; // Increase MIPS for better performance
-        int ram = 2048;
-        long storage = 1000000; // 1 TB storage
-        int bw = 100000; // 100 Gbps bandwidth
+        int mips = 1000000;
+        int ram = 4096;
+        long storage = 1000000;
+        int bw = 100000;
 
-        for (int i = 0; i < numberOfHosts; i++) { // Example: Increase to 20 hosts
+        for (int i = 0; i < numberOfHosts; i++) {
             List<Pe> peList = new ArrayList<>();
             peList.add(new Pe(0, new PeProvisionerSimple(mips)));
 

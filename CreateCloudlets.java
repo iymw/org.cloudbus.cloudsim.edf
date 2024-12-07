@@ -10,9 +10,9 @@ public class CreateCloudlets {
         List<CloudletWithDeadline> cloudletList = new ArrayList<>();
 
         // Cloudlet parameters
-        int numCloudlets = 200; // Number of cloudlets
-        long minLength = 10000; // Minimum cloudlet length
-        long maxLength = 50000; // Maximum cloudlet length
+        int numCloudlets = 1000; // Number of cloudlets
+        long minLength = 100; // Minimum cloudlet length
+        long maxLength = 5000; // Maximum cloudlet length
         long minFileSize = 300; // Minimum file size
         long maxFileSize = 1000; // Maximum file size
         long minOutputSize = 300; // Minimum output size
@@ -33,10 +33,21 @@ public class CreateCloudlets {
                 minOutputSize +
                 (long) (Math.random() * (maxOutputSize - minOutputSize)); // Random output size
 
-            // Calculate execution time estimate and randomized deadline
+            // Randomly choose between 1.15, 1.25, and 1.50
+            double randomFactor = 0;
+            double rand = Math.random(); // Generate a random number between 0 and 1
+
+            if (rand < 0.33) {
+                randomFactor = 1.15; // 33% chance
+            } else if (rand < 0.66) {
+                randomFactor = 1.25; // 33% chance
+            } else {
+                randomFactor = 1.50; // 34% chance
+            }
+
+            // Calculate the deadline using the chosen factor
             double executionTimeEstimate = (double) length / vmMips;
-            double randomFactor = 1.50 + (Math.random() * 1.15); // Random multiplier between 1.15 and 1.50
-            double deadline = executionTimeEstimate * randomFactor; // Apply random multiplier
+            double deadline = executionTimeEstimate * randomFactor;
 
             // Create cloudlet
             CloudletWithDeadline cloudlet = new CloudletWithDeadline(

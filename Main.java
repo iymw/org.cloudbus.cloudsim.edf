@@ -24,7 +24,7 @@ public class Main {
             // Create Datacenter
             Datacenter datacenter0 = CreateDataCenter.create(
                 "Datacenter_0",
-                300
+                200
             );
 
             // Create Broker
@@ -77,7 +77,8 @@ public class Main {
                 512,
                 1000,
                 10000,
-                simulationTime
+                simulationTime,
+                newList // Pass cloudlet list here
             );
         } catch (Exception e) {
             System.out.println(

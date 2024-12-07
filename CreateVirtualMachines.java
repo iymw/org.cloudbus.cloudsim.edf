@@ -16,7 +16,7 @@ public class CreateVirtualMachines {
         int pesNumber = 1;
         String vmm = "Xen";
 
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 1000; i++) {
             Vm vm = new Vm(
                 i,
                 brokerId,

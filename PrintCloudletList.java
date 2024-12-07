@@ -10,9 +10,11 @@ public class PrintCloudletList {
         int missedDeadlineCount = 0;
 
         System.out.println("\n");
+        // Add Task Length next to Cloudlet ID in the header
         System.out.printf(
-            "%-12s%-12s%-16s%-10s%-10s%-15s%-15s%-15s%-15s%n",
+            "%-12s%-15s%-12s%-16s%-10s%-10s%-15s%-15s%-15s%-15s%n",
             "Cloudlet ID",
+            "Task Length",
             "Status",
             "Data center ID",
             "VM ID",
@@ -39,9 +41,11 @@ public class PrintCloudletList {
                 missedDeadlineCount++;
             }
 
+            // Include Task Length in the printout
             System.out.printf(
-                "%-12d%-12s%-16d%-10d%-10s%-15s%-15s%-15s%-15s%n",
+                "%-12d%-15d%-12s%-16d%-10d%-10s%-15s%-15s%-15s%-15s%n",
                 cloudlet.getCloudletId(),
+                cloudlet.getCloudletLength(), // Print the cloudlet length
                 status,
                 cloudlet.getResourceId(),
                 cloudlet.getVmId(),
@@ -66,10 +70,19 @@ public class PrintCloudletList {
         int ramPerVm,
         long bwPerVm,
         long storagePerVm,
-        int simulationTime
+        int simulationTime,
+        List<Cloudlet> cloudletList // Add the list of cloudlets
     ) {
-        // RAM Utilization
-        int totalRamUsed = vmList.size() * ramPerVm;
+        // RAM Utilization - dynamic calculation based on cloudlet length
+        long totalRamUsed = 0;
+
+        // Calculate total RAM used by each cloudlet based on its length or execution time
+        for (Cloudlet cloudlet : cloudletList) {
+            long cloudletRamUsage = cloudlet.getCloudletLength() / 100;
+            totalRamUsed += cloudletRamUsage;
+        }
+
+        // Total RAM available
         int totalRamAvailable = hostList.size() * 2048; // Assuming 2 GB RAM per host
         double ramUtilization =
             ((double) totalRamUsed / totalRamAvailable) * 100;
